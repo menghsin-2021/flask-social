@@ -1,7 +1,7 @@
 #g: A global object that Flask uses for passing information between views and modules.
 from flask import (Flask, g, render_template, flash, redirect, url_for)
 from flask_bcrypt import check_password_hash
-from flask_login import LoginManager, login_user
+from flask_login import (LoginManager, login_user, logout_user, login_required)
 
 # LoginManager- An appliance to handle user authentication.
 
@@ -81,12 +81,22 @@ def login():
             flash("Your email or password doesn't match!", "error")  # 混淆駭客 其實只是沒有 email
         else:
             if check_password_hash(user.password, form.password.data):
-                login_user(user)  # flask_login function
+                login_user(user)
+                # flask_login function, creating sessions on the user's browser, and giving them a cookie which reference their user account
                 flash("You've been logged in", "success")
                 return redirect(url_for('index'))
             else:
                 flash("Your email or password doesn't match!", "error")
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+@login_required  # 和 app.route先後有差
+def logout():
+    logout_user()  # flask_logout function, delete the user account reference cookie
+    flash("You've been logged out! Come back soon", "success")
+    return redirect(url_for('index'))
+
 
 @app.route('/')
 def index():
