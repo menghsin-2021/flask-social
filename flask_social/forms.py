@@ -1,6 +1,6 @@
 from flask_wtf import Form
 # FlaskWTFDeprecationWarning: "flask_wtf.Form" has been renamed to "FlaskForm"
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                 Length, EqualTo)
 
@@ -49,8 +49,10 @@ class RegisterForm(Form):
         validators=[DataRequired()]
     )
 
-
+class PostForm(Form):
+    content = TextAreaField("What's up?", validators=[DataRequired()])
 # for sign in
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+

@@ -1,5 +1,7 @@
+{% extends "layout.html" %}
 {% from 'macros.html' import render_field %}
 
+{% block content %}
 <!-- a form ready to render-->
 <form method='POST' action="" class="form">
 <!-- create a div that has a style attribute so it's hidden    -->
@@ -10,3 +12,4 @@
     <button type="submit" id="submit">login!</button>
 <!--CSRF or C surf tag inserted -->
 </form>
+{% endblock %}
